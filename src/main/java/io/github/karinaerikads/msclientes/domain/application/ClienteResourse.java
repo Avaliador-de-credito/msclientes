@@ -1,15 +1,34 @@
 package io.github.karinaerikads.msclientes.domain.application;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import io.github.karinaerikads.msclientes.domain.Cliente;
+import io.github.karinaerikads.msclientes.domain.application.representation.ClienteSaveRequest;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("clientes")
+@RequiredArgsConstructor
 public class ClienteResourse {
 
+    private final ClienteService service;
     @GetMapping
     public String status(){
         return "ok";
+    }
+
+    @PostMapping
+    public ResponseEntity save(@RequestBody ClienteSaveRequest request){
+        var cliente = request.toModel();
+        service.save(cliente);
+        URI hearderLocation = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .query("cpf={cpf}")
+                .buildAndExpand(cliente.getCpf())
+                .toUri();
+        return ResponseEntity.created(hearderLocation).build();
     }
 }
