@@ -31,4 +31,13 @@ public class ClienteResourse {
                 .toUri();
         return ResponseEntity.created(hearderLocation).build();
     }
+
+    @GetMapping (params = "cpf")
+    public ResponseEntity dadosClientes(@RequestParam("cpf") String cpf){
+        var cliente = service.getByCpf(cpf);
+        if (cliente.isEmpty())
+            return ResponseEntity.notFound().build();
+
+        return ResponseEntity.ok(cliente);
+    }
 }
