@@ -1,6 +1,5 @@
 package io.github.karinaerikads.msclientes.domain.application;
 
-import io.github.karinaerikads.msclientes.domain.Cliente;
 import io.github.karinaerikads.msclientes.domain.application.representation.ClienteSaveRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
